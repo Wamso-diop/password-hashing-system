@@ -1,26 +1,35 @@
-📦 Password Hashing System
+# Password Hashing System
 
-Projet académique : Stockage Sécurisé des Mots de Passe
+## Projet académique
+**Stockage Sécurisé des Mots de Passe**
 
-📌 Présentation du projet
+---
 
-Ce projet a pour objectif de concevoir une application web sécurisée permettant de :
+## Présentation du projet
 
-hacher les mots de passe avant leur stockage
+Ce projet a pour objectif de concevoir une **application web sécurisée** permettant de :
 
-ne jamais stocker de mot de passe en clair
+- hacher les mots de passe avant leur stockage
+- ne jamais stocker de mot de passe en clair
+- démontrer les principes fondamentaux de sécurité appliqués aux données sensibles
 
-démontrer les principes fondamentaux de sécurité appliqués aux données sensibles
+Le projet est divisé en **trois parties indépendantes**, développées en parallèle.
 
-Le projet est divisé en trois parties indépendantes, développées en parallèle.
+---
 
-👥 Répartition des rôles
-Rôle	Responsable	Description
-Backend / API	LONTSIE	API FastAPI, base de données SQL, endpoints
-Frontend	NONGNING	Interfaces HTML / CSS / JavaScript
-Algorithme de hachage	MBAH	Implémentation de l’algorithme SHA-256
+## Répartition des rôles
 
-🧱 Architecture globale du projet
+| Rôle | Responsable | Description |
+|------|------------|-------------|
+| Backend / API | LONTSIE | API FastAPI, base de données SQL, endpoints |
+| Frontend | NONGNING | Interfaces HTML / CSS / JavaScript |
+| Algorithme de hachage | MBAH | Implémentation de l’algorithme SHA-256 |
+
+---
+
+## Architecture globale du projet
+
+```text
 password-hashing-system/
 │
 ├── .venv/                     # environnement virtuel Python (non versionné)
@@ -67,7 +76,8 @@ password-hashing-system/
 ├── .gitignore
 └── README.md
 
-⚙️ Technologies utilisées
+
+Technologies utilisées
 Backend
 
 Python 3.12
@@ -88,74 +98,59 @@ CSS
 
 JavaScript (Fetch API)
 
-🚀 Lancer le projet (IMPORTANT)
-
-1️⃣ creer l’environnement virtuel
+Lancer le projet
+1. Créer l’environnement virtuel
 python -m venv .venv
 
-Depuis la racine du projet :
-
+2. Activer l’environnement virtuel
 .venv\Scripts\activate
 
-2️⃣ Installer les dépendances backend
+3. Installer les dépendances backend
 cd backend
 pip install -r requirements.txt
 
-3️⃣ Lancer l’API FastAPI
-
-Toujours depuis le dossier backend :
-
+4. Lancer l’API FastAPI
 uvicorn app.main:app --reload
 
 
-➡️ L’API sera disponible sur :
-👉 http://127.0.0.1:8000
+API : http://127.0.0.1:8000
 
-➡️ Documentation automatique (Swagger) :
-👉 http://127.0.0.1:8000/docs
+Documentation Swagger : http://127.0.0.1:8000/docs
 
-🔐 Endpoints disponibles (pour le frontend)
-🔹 Inscription
+Endpoints disponibles
+Inscription
 POST /auth/register
 
-
-Body (JSON) :
-
+Body (JSON)
 {
   "username": "testuser",
   "password": "password123"
 }
 
-
-Réponse :
-
+Réponse
 {
   "message": "User registered successfully",
   "status": "OK"
 }
 
-🔹 Connexion
+Connexion
 POST /auth/login
 
-
-Body (JSON) :
-
+Body (JSON)
 {
   "username": "testuser",
   "password": "password123"
 }
 
-
-Réponse :
-
+Réponse
 {
   "message": "Authentication successful",
   "status": "OK"
 }
 
-🧠 Informations IMPORTANTES pour le responsable FRONTEND (NONGNING)
+Informations pour le responsable Frontend
 
-L’API attend du JSON
+L’API accepte uniquement des requêtes JSON
 
 Les réponses contiennent toujours :
 
@@ -163,24 +158,24 @@ message
 
 status
 
-Les erreurs retournent des codes HTTP standards :
+Codes d’erreur :
 
-400 → utilisateur déjà existant
+400 : utilisateur déjà existant
 
-401 → identifiants invalides
+401 : identifiants invalides
 
-👉 Utiliser fetch() avec Content-Type: application/json.
+Utiliser fetch() avec l’en-tête :
 
-🧠 Informations IMPORTANTES pour le responsable HASHING
+Content-Type: application/json
 
-📁 Fichier concerné :
-
+Informations pour le responsable Hashing
+Fichier concerné
 backend/app/security/hashing.py
 
-Fonctions à implémenter OBLIGATOIREMENT
+Fonctions à implémenter
 def hash_password(password: str):
     """
-    Doit retourner:
+    Doit retourner :
     - password_hash (str)
     - salt (str)
     """
@@ -192,25 +187,23 @@ def verify_password(password: str, stored_hash: str, salt: str) -> bool:
 
 Contraintes
 
-Ne PAS modifier la signature des fonctions
+Ne pas modifier la signature des fonctions
 
-Le reste du projet dépend de ce contrat
+Le mot de passe ne doit jamais être stocké en clair
 
-Le mot de passe ne doit JAMAIS être stocké en clair
+Implémentation maison de SHA-256
 
-Utiliser SHA-256 (implémentation maison)
+Une version temporaire est actuellement utilisée pour permettre le développement du frontend.
 
-⚠️ Actuellement, une version temporaire est en place pour permettre au front de fonctionner.
-
-🗄️ Base de données
+Base de données
 
 SQLite (users.db)
 
 Créée automatiquement au lancement
 
-Table principale : users
+Table users
 
-Champs :
+Champs
 
 id
 
@@ -219,15 +212,3 @@ username
 password_hash
 
 salt
-
-📄 Documentation (livrable)
-
-Le dossier docs/ contient :
-
-architecture du projet
-
-explication de l’algorithme de hachage
-
-documentation API
-
-tutoriel final
