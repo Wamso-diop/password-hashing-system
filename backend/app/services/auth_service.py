@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from db.models import User
-from security.hashing import hash_password, verify_password
+from app.db.models import User
+from app.security.hashing import hash_password, verify_password
 
 def register_user(db: Session, username: str, password: str) -> bool:
     existing_user = db.query(User).filter(User.username == username).first()
