@@ -63,6 +63,5 @@ export async function loginApi(data: AuthCredentials): Promise<AuthResponse> {
         const error = await response.json();
         throw new Error(error.detail || 'Identifiants invalides');
     }
-
     return response.json();
 }

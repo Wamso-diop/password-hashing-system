@@ -8,19 +8,13 @@ import { useNavigate, Link } from 'react-router';
 import { Lock, User } from 'lucide-react';
 import { ASSETS } from '~/assets';
 
-/**
- * Props de la page d'inscription
- */
-interface RegisterPageProps {
-    onRegister: (username: string, password: string) => Promise<{ success: boolean; error?: string }>;
-    loading: boolean;
-    error: string | null;
-}
+import { useAuth } from '~/features/auth/useAuth';
 
 /**
  * Composant RegisterPage
  */
-export default function RegisterPage({ onRegister, loading, error }: RegisterPageProps) {
+export default function RegisterPage() {
+    const { register, loading, error } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
@@ -43,7 +37,7 @@ export default function RegisterPage({ onRegister, loading, error }: RegisterPag
         }
 
         setPasswordMatch(true);
-        const result = await onRegister(formData.username, formData.password);
+        const result = await register(formData.username, formData.password);
 
         if (result.success) {
             navigate('/');

@@ -7,20 +7,12 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { Lock } from 'lucide-react';
 import { ASSETS } from '~/assets';
-
-/**
- * Props de la page de connexion
- */
-interface LoginPageProps {
-    onLogin: (username: string, password: string) => Promise<{ success: boolean; error?: string }>;
-    loading: boolean;
-    error: string | null;
-}
-
+import { useAuth } from '~/features/auth/useAuth';
 /**
  * Composant LoginPage
  */
-export default function LoginPage({ onLogin, loading, error }: LoginPageProps) {
+export default function LoginPage() {
+    const { login, loading, error } = useAuth(); // ✅ Appel du hook ICI
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +23,7 @@ export default function LoginPage({ onLogin, loading, error }: LoginPageProps) {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const result = await onLogin(formData.username, formData.password);
+        const result = await login(formData.username, formData.password);
 
         if (result.success) {
             navigate('/');

@@ -1,51 +1,38 @@
 /**
  * Utilitaires pour la gestion de l'authentification
- * Gère le stockage en mémoire de l'utilisateur connecté
- *
- * Note: Utilise le stockage en mémoire au lieu de localStorage
- * car localStorage n'est pas supporté dans les artifacts Claude
+ * Utilise localStorage pour persister les données
  */
 
-/**
- * Stockage en mémoire de l'utilisateur
- */
+import { CONFIG } from '~/config/constants';
+
 class AuthStorage {
-    private currentUser: string | null = null;
+  /**
+   * Sauvegarde l'utilisateur connecté dans localStorage
+   */
+  saveUser(username: string): void {
+    localStorage.setItem(CONFIG.STORAGE_KEYS.USER, username);
+  }
 
-    /**
-     * Sauvegarde l'utilisateur connecté
-     * @param username - Nom d'utilisateur à sauvegarder
-     */
-    saveUser(username: string): void {
-        this.currentUser = username;
-    }
+  /**
+   * Récupère l'utilisateur depuis localStorage
+   */
+  getUser(): string | null {
+    return localStorage.getItem(CONFIG.STORAGE_KEYS.USER);
+  }
 
-    /**
-     * Récupère l'utilisateur connecté
-     * @returns Le nom d'utilisateur ou null si non connecté
-     */
-    getUser(): string | null {
-        return this.currentUser;
-    }
+  /**
+   * Supprime l'utilisateur de localStorage
+   */
+  removeUser(): void {
+    localStorage.removeItem(CONFIG.STORAGE_KEYS.USER);
+  }
 
-    /**
-     * Supprime l'utilisateur (déconnexion)
-     */
-    removeUser(): void {
-        this.currentUser = null;
-    }
-
-    /**
-     * Vérifie si un utilisateur est connecté
-     * @returns true si un utilisateur est connecté, false sinon
-     */
-    isAuthenticated(): boolean {
-        return !!this.currentUser;
-    }
+  /**
+   * Vérifie si un utilisateur est connecté
+   */
+  isAuthenticated(): boolean {
+    return !!this.getUser();
+  }
 }
 
-/**
- * Instance unique du gestionnaire de stockage
- * Exportée pour être utilisée dans toute l'application
- */
 export const authStorage = new AuthStorage();

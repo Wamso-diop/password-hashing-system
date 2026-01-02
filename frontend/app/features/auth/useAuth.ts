@@ -32,6 +32,14 @@ export function useAuth() {
         if (currentUser) {
             setUser(currentUser);
         }
+
+    // ✅ Écouter les changements
+    const handleAuthChange = () => {
+      setUser(authStorage.getUser());
+    };
+
+    window.addEventListener('auth-changed', handleAuthChange);
+    return () => window.removeEventListener('auth-changed', handleAuthChange);
     }, []);
 
     /**

@@ -8,18 +8,12 @@ import { Link } from 'react-router';
 import { Home, Lock, User } from 'lucide-react';
 import { ASSETS } from '~/assets';
 
-/**
- * Props de la page d'accueil
- */
-interface HomePageProps {
-    user: string | null;
-}
+import { useAuth } from '~/features/auth/useAuth';
+import {useEffect} from "react";
 
-/**
- * Composant HomePage
- * @param user - Utilisateur connecté (null si non connecté)
- */
-export default function HomePage({ user }: HomePageProps) {
+export default function HomePage() {
+    const {user} = useAuth();
+
     return (
         <div className="bg-linear-to-br from-blue-50 to-purple-50">
             {/* Section Hero */}

@@ -4,23 +4,25 @@
  */
 
 import { Link } from 'react-router';
-import { LogIn, LogOut, UserPlus, Lock, User } from 'lucide-react';
-import {ASSETS} from "~/assets";
+import { LogIn, LogOut, UserPlus, User } from 'lucide-react';
+import { ASSETS } from "~/assets";
+import { useAuth } from "~/features/auth/useAuth";
+import { useEffect } from 'react'; // ✅ AJOUTER
 
-/**
- * Props du composant Navbar
- */
-interface NavbarProps {
-    user: string | null;
-    onLogout: () => void;
-}
+export function Navbar() {
+    const { user, logout } = useAuth();
 
-/**
- * Composant Navbar
- * @param user - Nom de l'utilisateur connecté (null si non connecté)
- * @param onLogout - Fonction appelée lors de la déconnexion
- */
-export function Navbar({ user, onLogout }: NavbarProps) {
+    // ✅ AJOUTER CE useEffect
+    useEffect(() => {
+        // Force le re-render quand le localStorage change
+        const handleStorageChange = () => {
+            window.location.reload(); // Solution simple mais fonctionne
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        return () => window.removeEventListener('storage', handleStorageChange);
+    }, []);
+
     return (
         <nav className="bg-white shadow-md sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -47,7 +49,7 @@ export function Navbar({ user, onLogout }: NavbarProps) {
 
                                 {/* Bouton déconnexion */}
                                 <button
-                                    onClick={onLogout}
+                                    onClick={logout}
                                     className="flex items-center space-x-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors"
                                 >
                                     <LogOut className="w-5 h-5" />
