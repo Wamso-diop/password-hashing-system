@@ -38,7 +38,17 @@ export async function registerApi(data: AuthCredentials): Promise<AuthResponse> 
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.detail || 'Erreur lors de l\'inscription');
+        // Gérer les erreurs de validation (422) et les autres erreurs
+        let errorMessage = 'Erreur lors de l\'inscription';
+        if (error.detail) {
+            if (typeof error.detail === 'string') {
+                errorMessage = error.detail;
+            } else if (Array.isArray(error.detail)) {
+                // FastAPI retourne un array pour les erreurs de validation
+                errorMessage = error.detail.map((err: any) => err.msg).join(', ');
+            }
+        }
+        throw new Error(errorMessage);
     }
 
     return response.json();
@@ -61,7 +71,17 @@ export async function loginApi(data: AuthCredentials): Promise<AuthResponse> {
 
     if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.detail || 'Identifiants invalides');
+        // Gérer les erreurs de validation (422) et les autres erreurs
+        let errorMessage = 'Erreur de connexion';
+        if (error.detail) {
+            if (typeof error.detail === 'string') {
+                errorMessage = error.detail;
+            } else if (Array.isArray(error.detail)) {
+                // FastAPI retourne un array pour les erreurs de validation
+                errorMessage = error.detail.map((err: any) => err.msg).join(', ');
+            }
+        }
+        throw new Error(errorMessage);
     }
     return response.json();
 }
